@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "CommunityHub",
+    "slug": "community-hub",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0d0d1a"
+    },
+    "platforms": ["ios", "android", "web"],
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0d0d1a"
+      },
+      "package": "com.group9.communityhub"
+    }
+  }
+}
