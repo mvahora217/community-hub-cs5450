@@ -5,6 +5,7 @@ import {
   StyleSheet, RefreshControl,
 } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
+import { logoutUser } from '../services/authService';
 import { subscribeToForums } from '../services/firestoreService';
 import { subscribeToEvents } from '../services/firestoreService';
 import { subscribeToGroups } from '../services/firestoreService';
@@ -12,6 +13,14 @@ import { CAT_COLORS, avatarBg } from '../utils/helpers';
 
 export default function DashboardScreen({ navigation }) {
   const { profile } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.log('Logout error:', error);
+    }
+  };
   const [forums,  setForums]  = useState([]);
   const [events,  setEvents]  = useState([]);
   const [groups,  setGroups]  = useState([]);
@@ -51,6 +60,10 @@ export default function DashboardScreen({ navigation }) {
           {profile.role === 'admin' ? '👑 Admin' : 'Member'} · Joined{' '}
           {profile.joinedAt?.toDate?.().toLocaleDateString('en-CA',{month:'short',year:'numeric'}) || '—'}
         </Text>
+
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Stats */}
@@ -84,7 +97,9 @@ export default function DashboardScreen({ navigation }) {
         ? <View style={styles.emptyCard}><Text style={styles.emptyText}>No events yet — join one!</Text></View>
         : myEvents.map(e => (
           <TouchableOpacity key={e.id} style={styles.card}
-            onPress={() => navigation.navigate('EventDetail', { eventId: e.id })}>
+            onPress={() =>
+              alert(`${e.title}\n\n${e.desc || 'No description available'}\n\nDate: ${e.date}\nLocation: ${e.location || 'N/A'}`)
+            }>
             <View style={styles.cardRow}>
               <View style={[styles.dateBadge, { borderColor: (CAT_COLORS[e.category]||'#6366f1')+'44' }]}>
                 <Text style={[styles.dateMonth, { color: CAT_COLORS[e.category]||'#6366f1' }]}>
@@ -163,4 +178,18 @@ const styles = StyleSheet.create({
   emptyCard:    { backgroundColor:'rgba(255,255,255,0.04)', borderRadius:14, padding:20,
                   alignItems:'center', marginBottom:10 },
   emptyText:    { color:'rgba(255,255,255,0.3)', fontSize:13 },
+  logoutButton: {
+    marginTop: 14,
+    backgroundColor: 'rgba(239,68,68,0.18)',
+    borderWidth: 1,
+    borderColor: 'rgba(239,68,68,0.4)',
+    borderRadius: 10,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  logoutText: {
+    color: '#f87171',
+    fontSize: 13,
+    fontWeight: '700',
+  },
 });

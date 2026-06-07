@@ -76,7 +76,12 @@ export default function EventsScreen({ navigation }) {
           const joined = ev.attendees?.includes(profile.uid);
           return (
             <TouchableOpacity key={ev.id} style={styles.card}
-              onPress={() => navigation.navigate('EventDetail', { eventId: ev.id })}>
+              onPress={() =>
+                Alert.alert(
+                  ev.title,
+                  `${ev.desc || 'No description available'}\n\nDate: ${ev.date}\nTime: ${ev.time || 'N/A'}\nLocation: ${ev.location || 'N/A'}`
+                )
+              }>
               {/* Color stripe */}
               <View style={[styles.stripe, { backgroundColor: color }]} />
               <View style={styles.cardBody}>
