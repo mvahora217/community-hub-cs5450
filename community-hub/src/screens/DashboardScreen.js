@@ -80,7 +80,9 @@ export default function DashboardScreen({ navigation }) {
       <SectionHeader title="Recent Discussions" onAction={() => navigation.navigate('Forums')} />
       {recentPosts.map(p => (
         <TouchableOpacity key={p.id} style={styles.card}
-          onPress={() => navigation.navigate('ThreadDetail', { postId: p.id })}>
+          onPress={() =>
+            alert(`${p.title}\n\nCategory: ${p.category}\nAuthor: ${p.authorName}\nLikes: ${p.likes || 0}\nReplies: ${p.replyCount || 0}`)
+          }>
           <View style={styles.cardRow}>
             <View style={[styles.badge, { backgroundColor: (CAT_COLORS[p.category]||'#6366f1')+'22' }]}>
               <Text style={[styles.badgeText, { color: CAT_COLORS[p.category]||'#6366f1' }]}>{p.category}</Text>
