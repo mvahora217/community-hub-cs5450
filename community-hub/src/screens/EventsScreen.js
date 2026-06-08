@@ -76,7 +76,12 @@ export default function EventsScreen({ navigation }) {
           const joined = ev.attendees?.includes(profile.uid);
           return (
             <TouchableOpacity key={ev.id} style={styles.card}
-              onPress={() => navigation.navigate('EventDetail', { eventId: ev.id })}>
+              onPress={() =>
+                Alert.alert(
+                  ev.title,
+                  `${ev.desc || 'No description available'}\n\nDate: ${ev.date}\nTime: ${ev.time || 'N/A'}\nLocation: ${ev.location || 'N/A'}`
+                )
+              }>
               {/* Color stripe */}
               <View style={[styles.stripe, { backgroundColor: color }]} />
               <View style={styles.cardBody}>
@@ -172,9 +177,9 @@ const styles = StyleSheet.create({
   search:    { backgroundColor:'rgba(255,255,255,0.07)', borderWidth:1,
                borderColor:'rgba(255,255,255,0.1)', borderRadius:10,
                padding:11, color:'#e8e8f0', fontSize:13, marginBottom:10 },
-  chips:     { marginBottom:14 },
-  chip:      { paddingHorizontal:13, paddingVertical:6, borderRadius:20, marginRight:7,
-               backgroundColor:'rgba(255,255,255,0.08)' },
+  chips:     { height:44, maxHeight:44, flexGrow:0, marginBottom:10 },
+  chip:      { height:34, paddingHorizontal:13, paddingVertical:6, borderRadius:18, marginRight:7,
+               backgroundColor:'rgba(255,255,255,0.08)', justifyContent:'center' },
   chipText:  { fontSize:12, color:'rgba(255,255,255,0.5)' },
   card:      { backgroundColor:'rgba(255,255,255,0.05)', borderWidth:1,
                borderColor:'rgba(255,255,255,0.09)', borderRadius:14,
